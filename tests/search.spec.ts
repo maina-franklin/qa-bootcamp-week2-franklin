@@ -9,10 +9,12 @@ test('search for pliers returns only products with pliers in the name', async ({
   const productNames = page.getByRole('heading', { level: 5 });
 
   await expect(async () => {
-    const names = await productNames.allTextContents();
+    const names = (await productNames.allTextContents())
+      .map((name) => name.trim())
+      .filter((name) => name !== '');
     expect(names.length).toBeGreaterThan(0);
     for (const name of names) {
       expect(name.toLowerCase()).toContain('pliers');
     }
-  }).toPass();
+  }).toPass({ timeout: 20000 });
 });

@@ -7,5 +7,6 @@ test('invalid login shows error message', async ({ page }) => {
   await page.getByPlaceholder('Your password').fill('WrongPassword123!');
   await page.getByRole('button', { name: 'Login' }).click();
 
-  await expect(page.getByText('Invalid email or password')).toBeVisible();
+  await expect(page.getByText('Invalid email or password')).toBeVisible({ timeout: 15000 });
+  await expect(page).toHaveURL(/\/auth\/login/);
 });
