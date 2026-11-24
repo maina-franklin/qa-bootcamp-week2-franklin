@@ -1,11 +1,18 @@
 import { test, expect } from '@playwright/test';
 
-test('search for pliers returns matching products', async ({ page }) => {
+test('search for pliers returns only products with pliers in the name', async ({ page }) => {
   await page.goto('https://practicesoftwaretesting.com/');
 
   await page.getByRole('textbox', { name: 'Search' }).fill('pliers');
   await page.getByRole('button', { name: 'Search' }).click();
 
-  const pliersHeading = page.getByRole('heading', { level: 5, name: /pliers/i }).first();
-  await expect(pliersHeading).toBeVisible();
+  const productNames = page.getByRole('heading', { level: 5 });
+
+  await expect(async () => {
+    const names = await productNames.allTextContents();
+    expect(names.length).toBeGreaterThan(0);
+    for (const name of names) {
+      expect(name.toLowerCase()).toContain('pliers');
+    }
+  }).toPass();
 });
