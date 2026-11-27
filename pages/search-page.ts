@@ -10,7 +10,10 @@ export class SearchPage {
     this.page = page;
     this.searchBox = page.getByRole('textbox', { name: 'Search' });
     this.searchButton = page.getByRole('button', { name: 'Search' });
-    this.productNames = page.getByRole('heading', { level: 5 });
+    this.productNames = page
+      .getByRole('link')
+      .filter({ has: page.getByRole('button', { name: 'Compare' }) })
+      .getByRole('heading', { level: 5 });
   }
 
   async goto() {
