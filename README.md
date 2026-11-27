@@ -1,13 +1,11 @@
 # QA Bootcamp Week 2 Starter
 
-This is the starting point for Week 2 of the QA bootcamp. During the week you will use it to practise:
+This repo holds my Week 2 work for the QA bootcamp. It contains a Playwright suite (UI tests, a page object test and API tests) against the Toolshop website and API, plus my TypeScript practice files.
 
 - TypeScript
-- Playwright (UI testing)
+- Playwright (UI and API testing)
 - Postman (API testing)
 - The Toolshop REST API
-
-There are no tests in this repo. You will write them during the week.
 
 ## Prerequisites
 
@@ -16,6 +14,14 @@ Install these before you start:
 - [Node.js](https://nodejs.org/) (the current LTS version)
 - [Git](https://git-scm.com/)
 - [VS Code](https://code.visualstudio.com/)
+
+## Quick start (3 steps)
+
+1. Install: `npm install`, then `npx playwright install chromium`
+2. Copy the environment file: `cp .env.example .env` (PowerShell: `Copy-Item .env.example .env`)
+3. Run the tests: `npm test`
+
+Full details are in Setup below.
 
 ## Setup
 
@@ -58,17 +64,32 @@ Run these steps in order from a terminal.
 
 > **Warning:** never commit `.env`. It is where your own settings and, later in the course, your secrets (keys, tokens, passwords) live. It is listed in `.gitignore` so Git ignores it. Do not remove it from there.
 
+## What the suite contains
+
+| File | What it checks |
+|---|---|
+| `tests/home.spec.ts` | The home page title |
+| `tests/login.spec.ts` | An invalid login is rejected with an error message |
+| `tests/search.spec.ts` | Searching "pliers" returns only products with "pliers" in the name (uses the `SearchPage` page object) |
+| `tests/products-api.spec.ts` | GET products returns 200 and a non-empty list |
+| `tests/cart-api.spec.ts` | Create a cart, add a product and read it back; a missing cart returns 404. Each test deletes its own cart |
+
+The optional Cucumber scenario was not written.
+
 ## Folders
 
 | Folder     | What it is for |
 |------------|----------------|
-| `tests/`   | Your Playwright tests. It is empty for now; you will add tests during the week. |
+| `tests/`   | The Playwright tests (UI and API). |
+| `pages/`   | Page objects. `search-page.ts` holds the search locators and actions. |
+| `src/`     | TypeScript practice files (Day 6). |
 | `scripts/` | Helper scripts. `check.ts` checks your setup and is run by `npm run check`. |
 
 ## Scripts
 
 - `npm run check`: checks your `.env` and that you can reach the Toolshop API.
-- `npm test`: runs the Playwright tests in `tests/`.
+- `npm test`: runs all the Playwright tests in `tests/`.
+
 ## Day 6 – TypeScript Basics & Profile Validator
 
 - `src/ts-basics/` contains one practice file per TypeScript topic (types, tuples, functions, objects, type aliases, union types, optional chaining).
